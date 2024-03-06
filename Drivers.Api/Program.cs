@@ -14,6 +14,11 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton<CarreraService>();
 builder.Services.AddScoped<DriverServices>();
 builder.Services.AddScoped<CarreraService>();
+
+builder.Services.AddCors(options => options.AddPolicy("AngularClient",policy => {
+    policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,5 +33,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("AngularClient");
 
 app.Run();
